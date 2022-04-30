@@ -7,9 +7,9 @@ spec:
   project: default
 
   source:
-    repoURL: https://github.com/doniyorniyozov/refit-test.git
+    repoURL: https://github.com/doniyorniyozov/argo-cd.git
     targetRevision: HEAD
-    path: k8s
+    path: dev
   destination:
     server: https://kubernetes.default.svc
     namespace: simple-api

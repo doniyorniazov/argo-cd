@@ -2,12 +2,11 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: simple-api
-  namespace: back-end
+  namespace: simple-api
 spec:
   selector:
     matchLabels:
       app: simple-api # has to match .spec.template.metadata.labels
-  serviceName: simple-api
   template:
     metadata:
       labels:
@@ -23,16 +22,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: simpleapi-internal-service
+  name: simple-api-internal
   labels:
-    app: simpleapi
-    service: simpleapi
+    app: simple-api
+    service: simple-api
 spec:
-  type: LoadBalancer
   ports:
     - port: 5005
       targetPort: 80 #this port should match with the port application is targetting in this case: containerPort: 80.
-      nodePort: 30010 # this should be in from range: 30000 - 32767
       protocol: TCP
-  selector:
-    service: simpleapi #This should match with Pod label
