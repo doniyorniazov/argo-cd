@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: simple-api
-          image: hub.docker.com/doniyozov/api:latest
+          image: doniyozov/api:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 80
