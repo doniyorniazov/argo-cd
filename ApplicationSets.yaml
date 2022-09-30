@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: simple-api
+  namespace: argocd
+spec:
+  generators:
+    - clusters:
+        selector:
+          matchLabels:
+            cluster: main
+  template:
+    metadata:
+      name: "{{cluster}}-api"
+    spec:
+      project: default
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+      source:
+        repoURL: https://github.com/doniyorniazov/refit-test
+        targetRevision: master
+        path: k8s/environments/dev
+      destination:
+        server: "{{url}}"
+        namespace: argocd
