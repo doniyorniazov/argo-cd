@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: simple-api
+  name: simpleapi
   namespace: back-end
 spec:
   selector:
     matchLabels:
-      app: simple-api # has to match .spec.template.metadata.labels
-  serviceName: simple-api
+      app: simpleapi # has to match .spec.template.metadata.labels
+  serviceName: simpleapi
   template:
     metadata:
       labels:
-        app: simple-api # has to match .spec.selector.matchLabels
+        app: simpleapi # has to match .spec.selector.matchLabels
     spec:
       containers:
-        - name: simple-api
-          image: hub.docker.com/doniyozov/api:latest
+        - name: simpleapi
+          image: hub.docker.com/doniyozov/api:v1
           imagePullPolicy: Always
           ports:
             - containerPort: 80
@@ -23,16 +23,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: simpleapi-internal-service
-  labels:
-    app: simpleapi
-    service: simpleapi
+  name: simpleapi
+  namespace: api
 spec:
   type: LoadBalancer
-  ports:
-    - port: 5005
-      targetPort: 80 #this port should match with the port application is targetting in this case: containerPort: 80.
-      nodePort: 30010 # this should be in from range: 30000 - 32767
-      protocol: TCP
   selector:
-    service: simpleapi #This should match with Pod label
+    app: simpleapi
+  ports:
+    - port: 80 #his  port is the port which belongs to ClusterIP which will be exposed
+      targetPort: 80 #this port should match with the port application is targetting in this case: containerPort: 8002.
+      nodePort: 30009
+      protocol: TCP
